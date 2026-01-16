@@ -1,27 +1,23 @@
 import streamlit as st
-import sqlite3 as sql
+from db import get_connection
 
-conn = sql.connect('database.db', check_same_thread=False)
+st.title("Cadastro de Empresa")
+
+conn = get_connection()
 cur = conn.cursor()
 
-cur.execute("""
-    CREATE TABLE IF NOT EXISTS empresas(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT,
-            cnpj TEXT
-) 
-""")
-conn.commit()
+nome = st.text_input("Nome da empresa")
+cnpj = st.text_input("CNPJ")
 
-st.title('Cadastro da Empresa')
+if st.button("Cadastrar empresa"):
+    if nome and cnpj:
+        cur.execute(
+            "INSERT INTO empresas (nome, cnpj) VALUES (?, ?)",
+            (nome, cnpj)
+        )
+        conn.commit()
+        st.success("Empresa cadastrada com sucesso!")
+    else:
+        st.error("Preencha todos os campos")
 
-nome = st.text_input("Nome")
-cnpj = st.text_input('CNPJ')
-
-if st.button('Cadastrar Dados'):
-    cur.execute(
-        "INSERT INTO empresas (nome,cnpj)  VALUES (?,?)", 
-        (nome , cnpj)
-    )
-    conn.commit()
-    st.success('Empresa cadastrada!')
+conn.close()

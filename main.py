@@ -1,18 +1,9 @@
-import streamlit as st 
+import streamlit as st
+from db import criar_tabelas
 
-st.set_page_config(
-    page_title='Gerenciamento Fiscal',
-    page_icon='📊',
-    layout='wide'
-)
+criar_tabelas()
 
-st.title('Sistema de Gerenciamento Fiscal')
-st.markdown('Gerencie os dados fiscais da sua empresa aqui , e visualize os indicadores da sua empresa.')
-st.divider()
+st.set_page_config(page_title="Gestão Empresarial", layout="wide")
 
-st.info(
-    'Use o menu à esquerda para: \n'
-    '-Cadastrar sua Empresa\n'
-    '-Lançar dados fiscais\n'
-    '-Visualizar Gráficos'
-)
+st.title("Sistema de Gestão Empresarial")
+st.sidebar.success("Selecione uma opção")
